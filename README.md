@@ -1,7 +1,5 @@
 # Hybrid RAG System — Controlled Document Intelligence Engine
 
-## Abstract
-
 This project presents a Retrieval-Augmented Generation (RAG) system designed for **high-reliability document understanding** under constrained context.
 The system focuses on minimizing hallucination through structured retrieval, ranking, and strict answer filtering.
 
@@ -9,8 +7,7 @@ It implements a hybrid pipeline combining semantic search, keyword matching, cro
 
 ---
 
-## Problem Statement
-
+## Problem
 Large Language Models tend to generate plausible but unsupported answers when operating without grounded context.
 This becomes critical in domains such as legal, regulatory, and enterprise documents where **precision and traceability** are required.
 
@@ -56,9 +53,12 @@ User Interface → API Layer → Retrieval → Ranking → Context Construction 
 ---
 <img width="7032" height="776" alt="untitled@2x (2)" src="https://github.com/user-attachments/assets/f72a6792-d4b3-43a3-90e2-1f77a49b264f" />
 
+<img width="1666" height="6463" alt="untitled@2x (1)" src="https://github.com/user-attachments/assets/8b9616ee-52c8-44b7-85ba-92360fdfee55" />
 
 
+## Result
 
+<img width="1863" height="870" alt="Screenshot 2026-04-15 214346" src="https://github.com/user-attachments/assets/4f8c44b0-b8f8-4f36-83c5-ad6052ec8346" />
 
 
 

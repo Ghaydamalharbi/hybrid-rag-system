@@ -57,6 +57,11 @@ User Interface → API Layer → Retrieval → Ranking → Context Construction 
 
 <img width="1863" height="870" alt="Screenshot 2026-04-15 214346" src="https://github.com/user-attachments/assets/4f8c44b0-b8f8-4f36-83c5-ad6052ec8346" />
 
+
+
+<img width="1832" height="837" alt="Screenshot 2026-04-15 214330" src="https://github.com/user-attachments/assets/edecf8a7-e893-49fe-b992-9c43a57369bf" />
+
+
 ## Retrieval Strategy
 
 ### Hybrid Retrieval

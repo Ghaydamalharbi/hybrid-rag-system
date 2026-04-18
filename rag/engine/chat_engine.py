@@ -6,9 +6,7 @@ from rank_bm25 import BM25Okapi
 from sentence_transformers import CrossEncoder
 
 
-# =========================
-# Hallucination Detection
-# =========================
+
 def detect_hallucination(answer, context):
     answer_words = set(re.findall(r'\w+', answer.lower()))
     context_words = set(re.findall(r'\w+', context.lower()))
@@ -20,9 +18,7 @@ def detect_hallucination(answer, context):
     return int((1 - match_ratio) * 100)
 
 
-# =========================
-# Clean Answer 🔥
-# =========================
+
 def clean_answer(answer):
     if not answer:
         return answer
@@ -44,9 +40,7 @@ def clean_answer(answer):
     return answer
 
 
-# =========================
-# Sentence Extraction 🔥
-# =========================
+
 def extract_best_sentence(context, question):
     sentences = re.split(r'[.\n]', context)
 
@@ -66,9 +60,6 @@ def extract_best_sentence(context, question):
     return best_sentence
 
 
-# =========================
-# Ollama
-# =========================
 def run_model(model_name, prompt):
     try:
         res = requests.post(
@@ -85,9 +76,7 @@ def run_model(model_name, prompt):
         return None
 
 
-# =========================
-# Parallel models
-# =========================
+
 def run_models_parallel(models, prompt):
 
     results = []
@@ -109,9 +98,7 @@ def run_models_parallel(models, prompt):
     return results
 
 
-# =========================
-# Hybrid Retrieval 🔥🔥🔥
-# =========================
+
 def hybrid_retrieve(vectorstore, question):
 
     docs_and_scores = vectorstore.similarity_search_with_score(question, k=8)
@@ -131,9 +118,7 @@ def hybrid_retrieve(vectorstore, question):
     return docs
 
 
-# =========================
-# Re-ranking 🔥
-# =========================
+
 def rerank(question, docs):
 
     model = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
@@ -147,17 +132,13 @@ def rerank(question, docs):
     return [d for d, _ in ranked[:3]]
 
 
-# =========================
-# MAIN ENGINE 🔥🔥🔥
-# =========================
+
 def answer_question(vectorstore, question: str):
 
     start_time = time.time()
     logs = []
 
-    # =========================
-    # Retrieval
-    # =========================
+   
     docs = hybrid_retrieve(vectorstore, question)
 
     if not docs:
@@ -165,9 +146,7 @@ def answer_question(vectorstore, question: str):
 
     docs = rerank(question, docs)
 
-    # =========================
-    # Context
-    # =========================
+   
     context = "\n\n".join([
         d.page_content.strip()[:500]
         for d in docs if d.page_content.strip()
@@ -178,9 +157,7 @@ def answer_question(vectorstore, question: str):
     if len(context) < 100:
         return {"error": "LOW CONTEXT"}
 
-    # =========================
-    # Direct Extraction 🔥
-    # =========================
+   
     extracted = extract_best_sentence(context, question)
 
     if extracted and len(extracted.split()) > 8:
@@ -197,9 +174,7 @@ def answer_question(vectorstore, question: str):
             "logs": ["direct extraction used"]
         }
 
-    # =========================
-    # Prompt Logic 🔥
-    # =========================
+   
     def is_definition_question(question):
         keywords = ["what is", "define", "meaning", "definition"]
         return any(k in question.lower() for k in keywords)
@@ -244,9 +219,7 @@ Question:
 Answer:
 """
 
-    # =========================
-    # Models
-    # =========================
+   
     models = [
         ("mistral", lambda p: run_model("mistral", p)),
         ("llama3", lambda p: run_model("llama3", p)),
@@ -258,9 +231,7 @@ Answer:
     best_model = None
     best_hallucination = 100
 
-    # =========================
-    # Evaluation
-    # =========================
+  
     for model_name, answer in results:
 
         if not answer:
@@ -275,9 +246,7 @@ Answer:
             best_answer = answer
             best_model = model_name
 
-    # =========================
-    # Filters 🔥
-    # =========================
+  
     best_answer = clean_answer(best_answer)
 
     if not best_answer:
@@ -286,9 +255,7 @@ Answer:
     if best_hallucination > 35:
         best_answer = "NOT FOUND IN DOCUMENT"
 
-    # =========================
-    # Performance
-    # =========================
+  
     end_time = time.time()
 
     return {

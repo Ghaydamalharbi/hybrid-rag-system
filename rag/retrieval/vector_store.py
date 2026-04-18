@@ -8,9 +8,7 @@ def create_vector_store(chunks):
         print("[ERROR] No chunks provided to vector store")
         return None
 
-    # =========================
-    # Clean chunks
-    # =========================
+    
     clean_chunks = [c for c in chunks if c.page_content.strip()]
 
     if not clean_chunks:
@@ -19,17 +17,12 @@ def create_vector_store(chunks):
 
     print(f"[DEBUG] Clean chunks: {len(clean_chunks)}")
 
-    # =========================
-    # Embedding (خفيف + سريع)
-    # =========================
     embeddings = HuggingFaceEmbeddings(
         model_name="sentence-transformers/paraphrase-MiniLM-L3-v2",
-        model_kwargs={"device": "cpu"}  # 🔥 يمنع استخدام GPU
+        model_kwargs={"device": "cpu"} 
     )
 
-    # =========================
-    # إعادة استخدام DB بدل التخريب
-    # =========================
+   
     persist_dir = "chroma_db"
 
     print("[DEBUG] Creating / Loading vector store...")
@@ -39,14 +32,10 @@ def create_vector_store(chunks):
         embedding_function=embeddings
     )
 
-    # =========================
-    # إضافة البيانات (incremental)
-    # =========================
+  
     vectorstore.add_documents(clean_chunks)
 
-    # =========================
-    # حفظ
-    # =========================
+   
     vectorstore.persist()
 
     print("[DEBUG] Vector store READY")

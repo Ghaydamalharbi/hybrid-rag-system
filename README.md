@@ -55,7 +55,7 @@ User Interface → API Layer → Retrieval → Ranking → Context Construction 
 8. Best answer is returned with performance metadata
 
 ---
-<img width="1666" height="6463" alt="untitled@2x (1)" src="https://github.com/user-attachments/assets/ab3a8485-a216-421f-8c98-99c11836451e" />
+
 
 <img width="7032" height="776" alt="untitled@2x (2)" src="https://github.com/user-attachments/assets/d13e8fb5-4613-43bc-9db7-bb67b2c0fe21" />
 ## Retrieval Strategy
